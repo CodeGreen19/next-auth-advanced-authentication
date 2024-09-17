@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { SessionProvider } from "next-auth/react";
 import "./globals.css";
+import ReactQuery from "@/components/ReactQuery";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -10,6 +13,11 @@ const geistSans = localFont({
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
+  weight: "100 900",
+});
+const geistComfort = localFont({
+  src: "./fonts/comfort.ttf",
+  variable: "--font-geist-comfort",
   weight: "100 900",
 });
 
@@ -24,12 +32,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <SessionProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} ${geistComfort.variable} font-mono antialiased`}
+        >
+          <ReactQuery>{children}</ReactQuery>
+          <Toaster />
+        </body>
+      </html>
+    </SessionProvider>
   );
 }
